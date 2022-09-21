@@ -3,8 +3,4 @@
 # and commit this file to your remote git repository to share the goodness with others.
 
 tasks:
-  - init: 
-    - "./gradlew installRoboRioToolchain"
-    - "./gradlew build"
-
-# I don't know if this will work for sure lol
+  - init ./gradlew installRoboRioToolchain; ./gradlew build
