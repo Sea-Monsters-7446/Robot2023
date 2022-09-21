@@ -4,5 +4,4 @@
 
 tasks:
   - init:
-    ? ./gradlew installRoboRioToolchain &&
-    ? ./gradlew build
+    ./gradlew installRoboRioToolchain && ./gradlew build
