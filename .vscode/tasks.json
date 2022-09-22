@@ -1,0 +1,10 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Export project",
+            "type": "shell",
+            "command": "test -f EXPORT.tar.gz && rm EXPORT.tar.gz; tar -czf EXPORT.tar.gz .vscode .wpilib gradle src build.gradle gradlew gradlew.bat settings.gradle; echo scp \"$GITPOD_WORKSPACE_ID@$(echo $GITPOD_WORKSPACE_URL | sed -E 's_^https?://__'):$PWD/EXPORT.tar.gz .\""
+        }
+    ]
+}
