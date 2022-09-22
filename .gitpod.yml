@@ -7,4 +7,6 @@ vscode:
     - wpilibsuite.vscode-wpilib
 
 tasks:
-  - init: ./gradlew installRoboRioToolchain && ./gradlew build
+  - init: |-
+      ./gradlew installRoboRioToolchain
+      ./gradlew build
