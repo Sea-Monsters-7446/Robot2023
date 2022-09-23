@@ -2,15 +2,6 @@
 # Please adjust to your needs (see https://www.gitpod.io/docs/config-gitpod-file)
 # and commit this file to your remote git repository to share the goodness with others.
 
-github:
-  prebuilds:
-    master: false                 # default true
-    branches: false               # default false
-    pullRequests: false           # default true
-    pullRequestsFromForks: false  # default false
-    addComment: false             # default true
-    addBadge: false               # default false
-
 vscode:
   extensions:
     - https://github.com/wpilibsuite/vscode-wpilib/releases/download/v2022.4.1/vscode-wpilib-2022.4.1.vsix # https://github.com/wpilibsuite/vscode-wpilib/releases
