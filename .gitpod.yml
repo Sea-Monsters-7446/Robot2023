@@ -4,7 +4,8 @@
 
 vscode:
   extensions:
-    - wpilibsuite.vscode-wpilib
+    - https://github.com/wpilibsuite/vscode-wpilib/releases/download/v2022.4.1/vscode-wpilib-2022.4.1.vsix # https://github.com/wpilibsuite/vscode-wpilib/releases
+#   - wpilibsuite.vscode-wpilib@v2022.2.1 # Not in Open VSX
 
 tasks:
   - init: |-
