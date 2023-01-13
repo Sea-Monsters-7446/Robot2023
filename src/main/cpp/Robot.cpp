@@ -4,6 +4,15 @@
 
 #include "Robot.h"
 
+Robot::Robot() :
+  m_controller(1),
+  m_leftMotor(0),
+  m_rightMotor(1),
+  m_drive(m_leftMotor, m_rightMotor)
+{
+
+}
+
 void Robot::RobotInit() {}
 void Robot::RobotPeriodic() {}
 
@@ -11,7 +20,9 @@ void Robot::AutonomousInit() {}
 void Robot::AutonomousPeriodic() {}
 
 void Robot::TeleopInit() {}
-void Robot::TeleopPeriodic() {}
+void Robot::TeleopPeriodic() {
+  m_drive.ArcadeDrive(m_controller.GetLeftY(), m_controller.GetLeftX());
+}
 
 void Robot::DisabledInit() {}
 void Robot::DisabledPeriodic() {}

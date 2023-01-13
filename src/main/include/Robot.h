@@ -5,9 +5,15 @@
 #pragma once
 
 #include <frc/TimedRobot.h>
+#include <frc/PS4Controller.h>
+#include <frc/motorcontrol/PWMVictorSPX.h>
+#include <frc/drive/DifferentialDrive.h>
 
 class Robot : public frc::TimedRobot {
  public:
+
+  Robot();
+
   void RobotInit() override;
   void RobotPeriodic() override;
 
@@ -22,4 +28,12 @@ class Robot : public frc::TimedRobot {
 
   void TestInit() override;
   void TestPeriodic() override;
+
+  frc::PS4Controller m_controller;
+
+  frc::PWMVictorSPX m_leftMotor;
+
+  frc::PWMVictorSPX m_rightMotor;
+
+  frc::DifferentialDrive m_drive;
 };

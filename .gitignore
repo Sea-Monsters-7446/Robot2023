@@ -105,10 +105,6 @@ Temporary Items
 
 ### VisualStudioCode ###
 .vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
 
 ### Windows ###
 # Windows thumbnail cache files
@@ -160,3 +156,9 @@ bin/
 
 # Simulation GUI and other tools window save file
 *-window.json
+
+
+# Random
+simgui-ds.json
+simgui.json
+
