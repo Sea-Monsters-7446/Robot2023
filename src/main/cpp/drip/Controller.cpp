@@ -1,4 +1,4 @@
-#include "Controller.hpp"
+#include "drip/Controller.hpp"
 
 void Drip::Joystick::Update(void) {
     double Temp;

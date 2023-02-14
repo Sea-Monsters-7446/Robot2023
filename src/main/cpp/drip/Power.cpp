@@ -1,4 +1,4 @@
-#include "Power.hpp"
+#include "drip/Power.hpp"
 
 bool Drip::PDP::CriticalPower(void) {
     return GetVoltage() <= 6.5;
