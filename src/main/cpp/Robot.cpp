@@ -21,7 +21,7 @@ void Robot::AutonomousPeriodic() {}
 
 void Robot::TeleopInit() {}
 void Robot::TeleopPeriodic() {
-  m_drive.ArcadeDrive(m_controller.GetLeftY(), m_controller.GetLeftX());
+  m_drive.ArcadeDrive((m_controller.GetRightX() * -1), (m_controller.GetLeftY() * -1));
 }
 
 void Robot::DisabledInit() {}
