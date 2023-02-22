@@ -14,14 +14,14 @@ Robot::Robot() :
 }
 
 void Robot::RobotInit() {}
-void Robot::RobotPeriodic() {}
+void Robot::RobotPeriodic() {}.
 
 void Robot::AutonomousInit() {}
 void Robot::AutonomousPeriodic() {}
 
 void Robot::TeleopInit() {}
 void Robot::TeleopPeriodic() {
-  m_drive.ArcadeDrive((m_controller.GetRightX() * -1), (m_controller.GetLeftY() * -1));
+  m_drive.ArcadeDrive(m_controller.GetRightX(), m_controller.GetLeftY());
 }
 
 void Robot::DisabledInit() {}
