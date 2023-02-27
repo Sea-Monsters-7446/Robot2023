@@ -162,3 +162,6 @@ bin/
 simgui-ds.json
 simgui.json
 
+# CMake stuff
+.vendor/
+cmake-test
