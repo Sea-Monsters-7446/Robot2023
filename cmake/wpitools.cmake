@@ -76,14 +76,36 @@ function(ensure_vendors_installed)
             list(GET STATUS_LIST 1 STATUS_READABLE)
 
             # downloads the headers if the link is valid
+            # also checks tu c if the file is update
             if(${STATUS} EQUAL 0)
-              message(STATUS "Downloading: ${HEADER_URL}")
+              message(STATUS "Checking/Downloading: ${HEADER_URL}")
               set(FILE "${VENDOR_DIRECTORY}/${ARTIFACT_ID}-${DEP_VERSION}-${HEADER_CLASSIFIER}.zip")
-              file(DOWNLOAD ${HEADER_URL} ${FILE} SHOW_PROGRESS)
-              message(STATUS "Downloaded to: ${FILE}")
-              message(STATUS "Extracting ${FILE}")
-              # do dah guud header extraction lmao
-              file(ARCHIVE_EXTRACT INPUT ${FILE} DESTINATION "${VENDOR_DIRECTORY}/include" VERBOSE)
+
+              if(NOT EXISTS "${FILE}.md5")
+                file(DOWNLOAD ${HEADER_URL} ${FILE} SHOW_PROGRESS)
+                message(STATUS "Downloaded to: ${FILE}")
+                message(STATUS "Generating MD5 Hash of file...")
+                file(MD5 ${FILE} FILE_CHECKSUM)
+                file(WRITE "${FILE}.md5" ${FILE_CHECKSUM})
+                message(STATUS "Extracting ${FILE}")
+                # do dah guud header extraction lmao
+                file(ARCHIVE_EXTRACT INPUT ${FILE} DESTINATION "${VENDOR_DIRECTORY}/include" VERBOSE)
+              else()
+                file(READ "${FILE}.md5" FILE_CHECKSUM)
+                file(DOWNLOAD ${HEADER_URL} ${FILE} SHOW_PROGRESS EXPECTED_MD5 ${FILE_CHECKSUM} STATUS DOWNLOAD_STATUS)
+                list(GET DOWNLOAD_STATUS 0 STATUS)
+
+                if(NOT ${STATUS} EQUAL 0)
+                  message(STATUS "File has been updated, regenerating MD5 Hash...")
+                  file(MD5 ${FILE} FILE_CHECKSUM)
+                  file(WRITE "${FILE}.md5" ${FILE_CHECKSUM})
+                  message(STATUS "Extracting newer ${FILE}")
+                  # do dah guud header extraction lmao
+                  file(ARCHIVE_EXTRACT INPUT ${FILE} DESTINATION "${VENDOR_DIRECTORY}/include" VERBOSE)
+                else()
+                  message(STATUS "File up to date, skipping download")
+                endif()
+              endif()
             else()
               message(WARNING "Error checking for `${HEADER_URL}`: Error code: ${STATUS}: ${STATUS_READABLE}")
             endif()
@@ -108,14 +130,44 @@ function(ensure_vendors_installed)
                 set(FILE "")
 
                 # downloabs da libs lul
-                message(STATUS "Downloading: ${LIB_URL}")
+                message(STATUS "Downloading/Checking: ${LIB_URL}")
                 set(FILE "${VENDOR_DIRECTORY}/${ARTIFACT_ID}-${DEP_VERSION}-${CUR_BINARY_PLATFORM}.zip")
-                file(DOWNLOAD ${LIB_URL} ${FILE} SHOW_PROGRESS)
-                message(STATUS "Downloaded to: ${FILE}")
-                message(STATUS "Extracting ${FILE}")
+                
+                if(NOT EXISTS "${FILE}.md5")
+                  # executes if the hash file does not exist, so needs to download no matter what
 
-                # do dah guud lib extraction lmao
-                file(ARCHIVE_EXTRACT INPUT ${FILE} DESTINATION "${VENDOR_DIRECTORY}/lib/${CUR_BINARY_PLATFORM}" VERBOSE)
+                  file(DOWNLOAD ${LIB_URL} ${FILE} SHOW_PROGRESS)
+                  message(STATUS "Downloaded to: ${FILE}")
+
+                  message(STATUS "Extracting ${FILE}")
+                  # do dah guud lib extraction lmao
+                  file(ARCHIVE_EXTRACT INPUT ${FILE} DESTINATION "${VENDOR_DIRECTORY}/lib/${CUR_BINARY_PLATFORM}" VERBOSE)
+                  # generat da guud md5 hasshh
+                  message(STATUS "Generating MD5 Hash of file...")
+                  file(MD5 ${FILE} FILE_CHECKSUM)
+                  file(WRITE "${FILE}.md5" ${FILE_CHECKSUM})
+                else()
+                  # executes if the has file exists
+                  # cechks the hash against the download
+
+                  file(READ "${FILE}.md5" FILE_CHECKSUM)
+                  file(DOWNLOAD ${LIB_URL} ${FILE} SHOW_PROGRESS EXPECTED_MD5 ${FILE_CHECKSUM} STATUS DOWNLOAD_STATUS)
+                  list(GET DOWNLOAD_STATUS 0 STATUS)
+
+                  if(NOT ${STATUS} EQUAL 0)
+
+                    # regen the hash if its been updated
+                    message(STATUS "File has been updated, regenerating MD5 Hash...")
+                    file(MD5 ${FILE} FILE_CHECKSUM)
+                    file(WRITE "${FILE}.md5" ${FILE_CHECKSUM})
+                    
+                    message(STATUS "Extracting newer ${FILE}")
+                    # do dah guud lib extraction lmao
+                    file(ARCHIVE_EXTRACT INPUT ${FILE} DESTINATION "${VENDOR_DIRECTORY}/lib/${CUR_BINARY_PLATFORM}" VERBOSE)
+                  else()
+                    message(STATUS "File up to date, skipping download")
+                  endif()
+                endif()
               else()
                 message(WARNING "Error checking for `${LIB_URL}`: Error code: ${STATUS}: ${STATUS_READABLE}")
               endif()
