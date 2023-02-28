@@ -50,6 +50,10 @@ function(ensure_vendors_installed)
           # configure da file fur cmake so we can include it in our project
           configure_file("${CMAKE_SOURCE_DIR}/cmake/vendor-base.cmake.in" "${CMAKE_SOURCE_DIR}/.vendor/cmake/${LIB_FILE_NAME}/${ARTIFACT_ID}.cmake")
 
+
+          add_custom_target(${ARTIFACT_ID})
+
+
           # loop over maven urls
           foreach(I RANGE ${SIZE_MAVEN_URLS})
             set(URL "")
@@ -105,6 +109,7 @@ function(ensure_vendors_installed)
                 else()
                   message(STATUS "File up to date, skipping download")
                 endif()
+
               endif()
             else()
               message(WARNING "Error checking for `${HEADER_URL}`: Error code: ${STATUS}: ${STATUS_READABLE}")
@@ -112,8 +117,11 @@ function(ensure_vendors_installed)
 
             # loops over the binary platforms like the little, nvm
             foreach(_I RANGE ${BINARY_PLATFORMS_SIZE})
+
               set(LIB_URL "")
               set(STATUS_LIST "")
+
+              set(LIBRARY "${ARTIFACT_ID}-${CUR_BINARY_PLATFORM}")
 
               string(JSON CUR_BINARY_PLATFORM GET ${BINARY_PLATFORMS} ${_I})
 
@@ -146,6 +154,17 @@ function(ensure_vendors_installed)
                   message(STATUS "Generating MD5 Hash of file...")
                   file(MD5 ${FILE} FILE_CHECKSUM)
                   file(WRITE "${FILE}.md5" ${FILE_CHECKSUM})
+
+                  # confib da lib
+                  set_property(GLOBAL PROPERTY TARGET_SUPPORTS_SHARED_LIBS TRUE)
+
+                  add_library(${LIBRARY} SHARED IMPORTED)
+
+                  file(GLOB_RECURSE "${LIBRARY}_LIBS" "${VENDOR_DIRECTORY}/lib/${CUR_BINARY_PLATFORM}/*.so")
+
+                  set_property(TARGET ${LIBRARY} PROPERTY IMPORTED_LOCATION "${LIBRARY}_LIBS")
+
+                  target_include_directories(${LIBRARY} SYSTEM AFTER INTERFACE "${VENDOR_DIRECTORY}/include")
                 else()
                   # executes if the has file exists
                   # cechks the hash against the download
