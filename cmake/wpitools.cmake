@@ -165,6 +165,9 @@ function(ensure_vendors_installed)
                   set_property(TARGET ${LIBRARY} PROPERTY IMPORTED_LOCATION "${LIBRARY}_LIBS")
 
                   target_include_directories(${LIBRARY} SYSTEM AFTER INTERFACE "${VENDOR_DIRECTORY}/include")
+
+                  
+
                 else()
                   # executes if the has file exists
                   # cechks the hash against the download
@@ -179,7 +182,7 @@ function(ensure_vendors_installed)
                     message(STATUS "File has been updated, regenerating MD5 Hash...")
                     file(MD5 ${FILE} FILE_CHECKSUM)
                     file(WRITE "${FILE}.md5" ${FILE_CHECKSUM})
-                    
+
                     message(STATUS "Extracting newer ${FILE}")
                     # do dah guud lib extraction lmao
                     file(ARCHIVE_EXTRACT INPUT ${FILE} DESTINATION "${VENDOR_DIRECTORY}/lib/${CUR_BINARY_PLATFORM}" VERBOSE)
