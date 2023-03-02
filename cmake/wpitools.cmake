@@ -158,13 +158,19 @@ function(ensure_vendors_installed)
                   # confib da lib
                   set_property(GLOBAL PROPERTY TARGET_SUPPORTS_SHARED_LIBS TRUE)
 
-                  add_library(${LIBRARY} SHARED IMPORTED)
+                  # didnt wokr coming bakc to this later, maybe
 
-                  file(GLOB_RECURSE "${LIBRARY}_LIBS" "${VENDOR_DIRECTORY}/lib/${CUR_BINARY_PLATFORM}/*.so")
+                  # message(STATUS ${LIBRARY})
 
-                  set_property(TARGET ${LIBRARY} PROPERTY IMPORTED_LOCATION "${LIBRARY}_LIBS")
+                  # add_library(${LIBRARY} SHARED IMPORTED)
 
-                  target_include_directories(${LIBRARY} SYSTEM AFTER INTERFACE "${VENDOR_DIRECTORY}/include")
+                  # file(GLOB_RECURSE "${LIBRARY}_LIBS" "${VENDOR_DIRECTORY}/lib/${CUR_BINARY_PLATFORM}/*.so")
+
+                  # set_property(TARGET ${LIBRARY} PROPERTY IMPORTED_LOCATION "${LIBRARY}_LIBS")
+
+                  # target_include_directories(${LIBRARY} SYSTEM AFTER INTERFACE "${VENDOR_DIRECTORY}/include")
+
+                  # export(TARGETS ${LIBRARY} APPEND FILE "${CMAKE_SOURCE_DIR}/.vendor/cmake/Modules/${LIBRARY}Export.cmake")
                 else()
                   # executes if the has file exists
                   # cechks the hash against the download
