@@ -1,7 +1,28 @@
 # Pull vendor libraries target and function yayyyyyy help me pls help me i need help
 function(ensure_vendors_installed)
+  cmake_parse_arguments(
+    OPTIONS "" "" "PATHS"
+    ${ARGN}
+  )
   file(MAKE_DIRECTORY "${CMAKE_SOURCE_DIR}/.vendor")
   file(GLOB_RECURSE vendor_library_jsons "${CMAKE_SOURCE_DIR}/vendordeps/*.json")
+
+  if(DEFINED OPTIONS_PATHS)
+    list(LENGTH OPTIONS_PATHS _OPTIONS_PATH_SIZE)
+      math(EXPR OPTIONS_PATH_SIZE "${_OPTIONS_PATH_SIZE} - 1")
+    foreach(I RANGE ${OPTIONS_PATH_SIZE})
+      list(GET OPTIONS_PATHS ${I} EXTRA_PATH)
+      file(GLOB_RECURSE FILES "${EXTRA_PATH}/*.json")
+      list(LENGTH FILES _FILES_SIZE)
+      math(EXPR FILES_SIZE "${_FILES_SIZE} - 1")
+      foreach(_I RANGE ${FILES_SIZE})
+        list(GET FILES ${_I} FILE)
+        list(APPEND vendor_library_jsons ${FILE})
+      endforeach(_I RANGE ${FILES_SIZE})
+    endforeach(I RANGE ${OPTIONS_PATHS_SIZE})
+  endif()
+  message(STATUS ${vendor_library_jsons})
+
   foreach(CUR_FILE IN LISTS vendor_library_jsons)
     # reads current json into string
     file(READ ${CUR_FILE} CUR_JSON)
