@@ -1,0 +1,3 @@
+# set("${ARTIFACT_ID}_INCLUDE_DIR" "${VENDOR_DIRECTORY}/include")
+# set("${ARTIFACT_ID}_BASE_LIB_DIR" ${VENDOR_DIRECTORY}/lib")
+
