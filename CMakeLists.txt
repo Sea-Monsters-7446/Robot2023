@@ -12,7 +12,9 @@ set(TEAM_NUMBER 7446)
 
 option(SKIP_VENDOR_CHECK SKIP_CHECK)
 
-if(SKIP_CHECK EQUAL OFF)
+if(SKIP_CHECK EQUAL ON)
+
+else()
   ensure_vendors_installed(PATHS "${CMAKE_SOURCE_DIR}/deps")
 endif()
 
