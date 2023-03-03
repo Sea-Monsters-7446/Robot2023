@@ -21,6 +21,18 @@ function(ensure_vendors_installed)
         string(JSON __CPP_DEPS_SIZE LENGTH ${_CPP_DEPS})
         math(EXPR _CPP_DEPS_SIZE "${__CPP_DEPS_SIZE} - 1")
 
+        string(REPLACE " " "_" CONFIG_NAME ${LIB_FILE_NAME})
+        string(REPLACE "(" "" CONFIG_NAME ${CONFIG_NAME})
+        string(REPLACE ")" "" CONFIG_NAME ${CONFIG_NAME})
+
+        # library where the object and header files are stored
+        set(VENDOR_DIRECTORY "${CMAKE_SOURCE_DIR}/.vendor/${CONFIG_NAME}")
+
+        # set folders
+        file(MAKE_DIRECTORY ${VENDOR_DIRECTORY})
+        file(MAKE_DIRECTORY "${VENDOR_DIRECTORY}/lib")
+        file(MAKE_DIRECTORY "${VENDOR_DIRECTORY}/include")
+
         # lloops on each of da cpp deps
         foreach(IT RANGE ${_CPP_DEPS_SIZE})
           string(JSON CPP_DEPS GET ${_CPP_DEPS} ${IT})
@@ -39,22 +51,13 @@ function(ensure_vendors_installed)
           math(EXPR BINARY_PLATFORMS_SIZE "${_BINARY_PLATFORMS_SIZE} - 1")
           string(REPLACE "." "/" SPECIFIER ${GROUP_ID})
 
-          # library where the object and header files are stored
-          set(VENDOR_DIRECTORY "${CMAKE_SOURCE_DIR}/.vendor/${SPECIFIER}")
-
-          # set folders
-          file(MAKE_DIRECTORY ${VENDOR_DIRECTORY})
-          file(MAKE_DIRECTORY "${VENDOR_DIRECTORY}/lib")
-          file(MAKE_DIRECTORY "${VENDOR_DIRECTORY}/include")
-
           # configure da file fur cmake so we can include it in our project
-          configure_file("${CMAKE_SOURCE_DIR}/cmake/vendor-base.cmake.in" "${CMAKE_SOURCE_DIR}/.vendor/cmake/${LIB_FILE_NAME}/${ARTIFACT_ID}.cmake")
 
+          set(PACKAGE_INCLUDE_DIR "${VENDOR_DIRECTORY}/include")
+          set(PACKAGE_BASE_LIBRARY_DIR "${VENDOR_DIRECTORY}/lib")
+          set(PACKAGE_VERSION ${DEP_VERSION})
 
-          add_custom_target(${ARTIFACT_ID})
-
-
-          # loop over maven urls
+          # loop over maven url
           foreach(I RANGE ${SIZE_MAVEN_URLS})
             set(URL "")
             set(HEADER_URL "")
@@ -154,23 +157,7 @@ function(ensure_vendors_installed)
                   message(STATUS "Generating MD5 Hash of file...")
                   file(MD5 ${FILE} FILE_CHECKSUM)
                   file(WRITE "${FILE}.md5" ${FILE_CHECKSUM})
-
-                  # confib da lib
-                  set_property(GLOBAL PROPERTY TARGET_SUPPORTS_SHARED_LIBS TRUE)
-
-                  # didnt wokr coming bakc to this later, maybe
-
-                  # message(STATUS ${LIBRARY})
-
-                  # add_library(${LIBRARY} SHARED IMPORTED)
-
-                  # file(GLOB_RECURSE "${LIBRARY}_LIBS" "${VENDOR_DIRECTORY}/lib/${CUR_BINARY_PLATFORM}/*.so")
-
-                  # set_property(TARGET ${LIBRARY} PROPERTY IMPORTED_LOCATION "${LIBRARY}_LIBS")
-
-                  # target_include_directories(${LIBRARY} SYSTEM AFTER INTERFACE "${VENDOR_DIRECTORY}/include")
-
-                  # export(TARGETS ${LIBRARY} APPEND FILE "${CMAKE_SOURCE_DIR}/.vendor/cmake/Modules/${LIBRARY}Export.cmake")
+                  
                 else()
                   # executes if the has file exists
                   # cechks the hash against the download
@@ -199,6 +186,8 @@ function(ensure_vendors_installed)
             endforeach(_I RANGE ${_BINARY_PLATFORMS_SIZE})
           endforeach(I RANGE ${SIZE_MAVEN_URLS})
         endforeach(IT IN RANGE ${_CPP_DEPS_SIZE})
+        # configures the file so that cmake can find it
+        configure_file("${CMAKE_SOURCE_DIR}/cmake/FindPackage.cmake.in" "${CMAKE_SOURCE_DIR}/.vendor/cmake/Modules/Find${CONFIG_NAME}.cmake" @ONLY)
       endif()
     endif()
   endforeach(CUR_FILE IN LISTS vendor_library_jsons)

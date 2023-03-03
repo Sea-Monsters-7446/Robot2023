@@ -1,14 +1,16 @@
 cmake_minimum_required(VERSION 3.2)
 include(${CMAKE_SOURCE_DIR}/cmake/wpitools.cmake)
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/.vendor/cmake/Modules")
 #include(${CMAKE_TOOLCHAIN_FILE})
 
-ensure_vendors_installed()
 project("SeaMonsters" 
   LANGUAGES CXX
   DESCRIPTION "The code for the 2023 competition"
   HOMEPAGE_URL "https://github.com/FRC7446/Robot2023")
 
 set(TEAM_NUMBER 7446)
+
+ensure_vendors_installed()
 
 # Robot target
 # For quick list of files run
@@ -18,6 +20,9 @@ file(GLOB_RECURSE ${PROJECT_NAME}_SOURCES "${CMAKE_SOURCE_DIR}/src/main/*.cpp")
 add_executable(${PROJECT_NAME})
 target_sources(${PROJECT_NAME} PRIVATE ${${PROJECT_NAME}_SOURCES})
 target_include_directories(${PROJECT_NAME} PRIVATE "${CMAKE_SOURCE_DIR}/src/main/include")
+
+find_package(photonlib REQUIRED)
+find_package(CTRE-Phoenix_v5 REQUIRED)
 
 # Example: adding CTRE library
 # Make sure this goes before WPILib
