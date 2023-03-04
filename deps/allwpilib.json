@@ -85,7 +85,7 @@
             "groupId": "edu.wpi.first.hal",
             "artifactId": "hal-cpp",
             "version": "2023.4.2",
-            "libName": "fieldimages",
+            "libName": "wpiHal",
             "headerClassifier": "headers",
             "sharedLibrary": true,
             "skipInvalidPlatforms": true,

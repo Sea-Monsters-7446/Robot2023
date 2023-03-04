@@ -9,18 +9,18 @@ project("SeaMonsters"
   HOMEPAGE_URL "https://github.com/FRC7446/Robot2023")
 
 set(TEAM_NUMBER 7446)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+option(SKIP_VENDOR_CHECK "Skips the downloading/checking of vendor and custom dependancies" OFF)
 
-option(SKIP_VENDOR_CHECK SKIP_CHECK)
-
-if(SKIP_CHECK EQUAL ON)
-
+if(SKIP_VENDOR_CHECK)
+  message(STATUS "Skipping Vendor Dependancy downloads/checks")
 else()
   ensure_vendors_installed(PATHS "${CMAKE_SOURCE_DIR}/deps")
 endif()
 
 find_package(photonlib REQUIRED)
 find_package(WPILib REQUIRED)
-
+find_package(opencv REQUIRED)
 # Robot target
 # For quick list of files run
 # find src -iname "*.cpp"
@@ -28,8 +28,19 @@ find_package(WPILib REQUIRED)
 file(GLOB_RECURSE ${PROJECT_NAME}_SOURCES "${CMAKE_SOURCE_DIR}/src/main/*.cpp")
 add_executable("${PROJECT_NAME}_NATIVE")
 target_sources("${PROJECT_NAME}_NATIVE" PRIVATE ${${PROJECT_NAME}_SOURCES})
+target_link_libraries("${PROJECT_NAME}_NATIVE" 
+  PRIVATE
+    WPILib::linuxx86-64::wpilibc-cpp
+    WPILib::linuxx86-64::hal-cpp
+    WPILib::linuxx86-64::cscore-cpp
+    WPILib::linuxx86-64::cameraserver-cpp
+    WPILib::linuxx86-64::wpiutil-cpp
+    WPILib::linuxx86-64::wpimath-cpp
+    opencv::linuxx86-64::opencv-cpp::opencv_imgcodecs
+    opencv::linuxx86-64::opencv-cpp::opencv_imgproc
+    opencv::linuxx86-64::opencv-cpp::opencv_core
+)
 target_include_directories("${PROJECT_NAME}_NATIVE" PRIVATE "${CMAKE_SOURCE_DIR}/src/main/include")
-target_link_directories("${PROJECT_NAME}_NATIVE" PRIVATE "${WPILib_BASE_LIBRARY_DIR}/linuxx86-64/linux/x86-64/shared" "${photonlib_BASE_LIBRARY_DIR}/linuxx86-64/linux/x86_64/shared")
 target_include_directories("${PROJECT_NAME}_NATIVE" SYSTEM PUBLIC ${photonlib_INCLUDE_DIR} ${WPILib_INCLUDE_DIR})
 
 set_property(TARGET "${PROJECT_NAME}_NATIVE" PROPERTY CXX_STANDARD 20)

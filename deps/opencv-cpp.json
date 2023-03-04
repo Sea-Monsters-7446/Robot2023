@@ -1,0 +1,44 @@
+{
+    "fileName": "opencv.json",
+    "name": "opencv",
+    "version": "v2023.4.2",
+    "uuid": "????",
+    "mavenUrls": [
+        "https://frcmaven.wpi.edu/artifactory/thirdparty-mvn-release-local"
+    ],
+    "jniDependencies": [],
+    "cppDependencies": [
+        {
+            "groupId": "edu.wpi.first.thirdparty.frc2023.opencv",
+            "artifactId": "opencv-cpp",
+            "version": "4.6.0-4",
+            "libNames": [
+                "opencv_aruco",
+                "opencv_calib3d",
+                "opencv_features2d",
+                "opencv_flann",
+                "opencv_gapi",
+                "opencv_highgui",
+                "opencv_imgcodecs",
+                "opencv_imgproc",
+                "opencv_java460",
+                "opencv_ml",
+                "opencv_objdetect",
+                "opencv_photo",
+                "opencv_stitching",
+                "opencv_video",
+                "opencv_videoio",
+                "opencv_core"
+            ],
+            "headerClassifier": "headers",
+            "sharedLibrary": true,
+            "skipInvalidPlatforms": true,
+            "binaryPlatforms": [
+                "windowsx86-64",
+                "linuxathena",
+                "linuxx86-64",
+                "osxuniversal"
+            ]
+        }
+    ]
+}

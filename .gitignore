@@ -165,3 +165,6 @@ simgui.json
 # CMake stuff
 .vendor/
 cmake-test
+.cache/
+
+compile_commands.json
