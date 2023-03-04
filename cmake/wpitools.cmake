@@ -288,3 +288,118 @@ function(ensure_vendors_installed)
     endif()
   endforeach(CUR_FILE IN LISTS vendor_library_jsons)
 endfunction(ensure_vendors_installed)
+
+function(ensure_toolchain_installed)
+  # Makes the directory where the toolchain will be installed to
+  file(MAKE_DIRECTORY "${CMAKE_SOURCE_DIR}/.toolchain")
+  file(DOWNLOAD "https://api.github.com/repos/wpilibsuite/opensdk/releases/latest" STATUS STATUS_LIST)
+
+  list(GET STATUS_LIST 0 STATUS)
+  list(GET STATUS_LIST 1 STATUS_READABLE)
+
+  if(${STATUS} EQUAL 0)
+    set(LATEST_TOOLCHAINS_FILE "${CMAKE_SOURCE_DIR}/.toolchain/LatestToolchainRelease.json")
+
+    # Executes if a hash does not already exist
+    if(NOT EXISTS "${LATEST_TOOLCHAINS_FILE}.md5")
+      # Downloads the list of the latest toolchain releases
+      message(STATUS "Getting list of latest toolchain releases...")
+      file(DOWNLOAD "https://api.github.com/repos/wpilibsuite/opensdk/releases/latest" ${LATEST_TOOLCHAINS_FILE})
+
+      # Generate the MD5 Hash
+      message(STATUS "Generating MD5 Hash of file")
+      file(MD5 ${LATEST_TOOLCHAINS_FILE} LATEST_TOOLCHAINS_HASH)
+      file(WRITE "${LATEST_TOOLCHAINS_FILE}.md5" ${LATEST_TOOLCHAINS_HASH})
+      message(STATUS "Dowloading toolchains")
+      set(REDOWNLOAD TRUE)
+    else()
+      message(STATUS "Checking list if latest toolchain releases...")
+      file(READ "${LATEST_TOOLCHAINS_FILE}.md5" LATEST_TOOLCHAINS_HASH)
+      file(DOWNLOAD "https://api.github.com/repos/wpilibsuite/opensdk/releases/latest" ${LATEST_TOOLCHAINS_FILE} SHOW_PROGRESS STATUS DOWNLOAD_STATUS_LIST EXPECTED_MD5 ${LATEST_TOOLCHAINS_HASH})
+
+      list(GET DOWNLOAD_STATUS_LIST 0 DOWNLOAD_STATUS)
+      list(GET DOWNLOAD_STATUS_LIST 1 DOWNLOAD_STATUS_READABLE)
+
+      if(NOT ${DOWNLOAD_STATUS} EQUAL 0)
+        message(STATUS "Toolchains updated. Regenerating the MD5 Hash...")
+        file(MD5 ${LATEST_TOOLCHAINS_FILE} LATEST_TOOLCHAINS_HASH)
+        file(WRITE "${LATEST_TOOLCHAINS_FILE}.md5" ${LATEST_TOOLCHAINS_HASH})
+        message(STATUS "Redownloading the toolchain...")
+        set(REDOWNLOAD TRUE)
+      else()
+        message(STATUS "Toolchains up to date. Skipping download.")
+        set(REDOWNLOAD FALSE)
+      endif()
+    endif()
+
+    if(${REDOWNLOAD})
+      file(READ ${LATEST_TOOLCHAINS_FILE} LATEST_TOOLCHAIN)
+
+      # Grabs stuff from the JSON
+      string(JSON LATEST_TOOLCHAIN_ASSETS GET ${LATEST_TOOLCHAIN} "assets")
+      string(JSON _LATEST_TOOLCHAIN_ASSETS_LENGTH LENGTH ${LATEST_TOOLCHAIN_ASSETS})
+      math(EXPR LATEST_TOOLCHAIN_ASSETS_LENGTH "${_LATEST_TOOLCHAIN_ASSETS_LENGTH} - 1")
+
+      # Loops over each GitHub asset
+      foreach(CURRENT_ASSET RANGE ${LATEST_TOOLCHAIN_ASSETS_LENGTH})
+        string(JSON DOWNLOAD_URL GET ${LATEST_TOOLCHAIN_ASSETS} ${CURRENT_ASSET} "browser_download_url")
+        string(JSON FILE_NAME GET ${LATEST_TOOLCHAIN_ASSETS} ${CURRENT_ASSET} "name")
+
+        # We need the Cortex A9 toolchain, so anything that's not that
+        # we can discard and ignore
+        string(FIND ${DOWNLOAD_URL} "cortexa9" FIND_VAR)
+        if(NOT ${FIND_VAR} EQUAL -1)
+          # We now need a platform specific toolchain, so this will get that
+          if(WIN32)
+            # Windows :(
+            string(FIND ${DOWNLOAD_URL} "mingw32" SYSTEM_FIND_VAR)
+            if(NOT ${SYSTEM_FIND_VAR} EQUAL -1)
+              break()
+            endif()
+          elseif(APPLE)
+            string(FIND ${DOWNLOAD_URL} "apple" SYSTEM_FIND_VAR)
+            if(NOT ${SYSTEM_FIND_VAR} EQUAL -1)
+              if(${CMAKE_HOST_SYSTEM_PROCESSOR} STREQUAL "x86_64")
+                string(FIND ${DOWNLOAD_URL} "x86_64" SYSTEM_FIND_VAR)
+                if(NOT ${SYSTEM_FIND_VAR} EQUAL -1)
+                  break()
+                endif()
+              else()
+                break()
+              endif()
+            endif()
+          elseif(UNIX)
+            string(FIND ${DOWNLOAD_URL} "linux" SYSTEM_FIND_VAR)
+            if(NOT ${SYSTEM_FIND_VAR} EQUAL -1)
+              if(${CMAKE_HOST_SYSTEM_PROCESSOR} STREQUAL "x86_64")
+                string(FIND ${DOWNLOAD_URL} "x86_64" SYSTEM_FIND_VAR)
+                if(NOT ${SYSTEM_FIND_VAR} EQUAL -1)
+                  break()
+                endif()
+              elseif(${CMAKE_HOST_SYSTEM_PROCESSOR} STREQUAL "armv6")
+                string(FIND ${DOWNLOAD_URL} "armv6" SYSTEM_FIND_VAR)
+                if(NOT ${SYSTEM_FIND_VAR} EQUAL -1)
+                  break()
+                endif()
+              else()
+                message(FATAL_ERROR "Unable to download cross toolchain for the host architecture")
+              endif()
+            endif()
+          endif()
+        endif()
+      endforeach()
+      set(FILE "${CMAKE_SOURCE_DIR}/.toolchain/${FILE_NAME}")
+        message(STATUS "Downloading: ${FILE_NAME}")
+        file(DOWNLOAD ${DOWNLOAD_URL} ${FILE} SHOW_PROGRESS)
+        message(STATUS "Downloaded to ${FILE}")
+
+        # Extract toolchain
+        message(STATUS "Extracting ${FILE_NAME}")
+        file(ARCHIVE_EXTRACT INPUT "${CMAKE_SOURCE_DIR}/.toolchain/${FILE_NAME}" DESTINATION "${CMAKE_SOURCE_DIR}/.toolchain/" VERBOSE)
+    endif()
+    file(GLOB_RECURSE RIO_TOOLCHAIN_FILE "${CMAKE_SOURCE_DIR}/.toolchain/*toolchain-config.cmake")
+    message(STATUS "Toolchain file ${RIO_TOOLCHAIN_FILE} set to variable \"RIO_TOOLCHAIN_FILE\"")
+  else()
+    message(WARNING "Error checking for latest toolchain releases: Error code: ${STATUS}: ${STATUS_READABLE}")
+  endif()
+endfunction()

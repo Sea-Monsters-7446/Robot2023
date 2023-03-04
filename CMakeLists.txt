@@ -18,6 +18,8 @@ else()
   ensure_vendors_installed(PATHS "${CMAKE_SOURCE_DIR}/deps")
 endif()
 
+ensure_toolchain_installed()
+
 find_package(photonlib REQUIRED)
 find_package(WPILib REQUIRED)
 find_package(opencv REQUIRED)
@@ -28,7 +30,7 @@ find_package(opencv REQUIRED)
 file(GLOB_RECURSE ${PROJECT_NAME}_SOURCES "${CMAKE_SOURCE_DIR}/src/main/*.cpp")
 add_executable("${PROJECT_NAME}_NATIVE")
 target_sources("${PROJECT_NAME}_NATIVE" PRIVATE ${${PROJECT_NAME}_SOURCES})
-target_link_libraries("${PROJECT_NAME}_NATIVE" 
+target_link_libraries("${PROJECT_NAME}_NATIVE"
   PRIVATE
     WPILib::linuxx86-64::wpilibc-cpp
     WPILib::linuxx86-64::hal-cpp
@@ -44,6 +46,24 @@ target_include_directories("${PROJECT_NAME}_NATIVE" PRIVATE "${CMAKE_SOURCE_DIR}
 target_include_directories("${PROJECT_NAME}_NATIVE" SYSTEM PUBLIC ${photonlib_INCLUDE_DIR} ${WPILib_INCLUDE_DIR})
 
 set_property(TARGET "${PROJECT_NAME}_NATIVE" PROPERTY CXX_STANDARD 20)
+
+include("${CMAKE_SOURCE_DIR}/.toolchain/roborio-academic/toolchain-config.cmake")
+add_executable("${PROJECT_NAME}_TARGET")
+target_sources("${PROJECT_NAME}_TARGET" PRIVATE ${${PROJECT_NAME}_SOURCES})
+target_link_libraries("${PROJECT_NAME}_TARGET"
+  PRIVATE
+    WPILib::linuxathena::wpilibc-cpp
+    WPILib::linuxathena::hal-cpp
+    WPILib::linuxathena::cscore-cpp
+    WPILib::linuxathena::cameraserver-cpp
+    WPILib::linuxathena::wpiutil-cpp
+    WPILib::linuxathena::wpimath-cpp
+    opencv::linuxathena::opencv-cpp::opencv_imgcodecs
+    opencv::linuxathena::opencv-cpp::opencv_imgproc
+    opencv::linuxathena::opencv-cpp::opencv_core
+)
+target_include_directories("${PROJECT_NAME}_TARGET" PRIVATE "${CMAKE_SOURCE_DIR}/src/main/include")
+target_include_directories("${PROJECT_NAME}_TARGET" SYSTEM PUBLIC ${photonlib_INCLUDE_DIR} ${WPILib_INCLUDE_DIR})
 
 #include(ExternalProject)
 #ExternalProject_Add(check
