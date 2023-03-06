@@ -1,71 +1,52 @@
 cmake_minimum_required(VERSION 3.5)
 include(${CMAKE_SOURCE_DIR}/cmake/wpitools.cmake)
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/.vendor/cmake/Modules")
-#include(${CMAKE_TOOLCHAIN_FILE})
+include(ExternalProject)
 
-project("SeaMonsters" 
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/.vendor/cmake/Modules")
+list(APPEND CMAKE_ARGS "-DCMAKE_TOP_SOURCE_DIR=${CMAKE_SOURCE_DIR}")
+
+project("SeaMonsters"
   LANGUAGES CXX
   DESCRIPTION "The code for the 2023 competition"
   HOMEPAGE_URL "https://github.com/FRC7446/Robot2023")
 
 set(TEAM_NUMBER 7446)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 option(SKIP_VENDOR_CHECK "Skips the downloading/checking of vendor and custom dependancies" OFF)
+option(SKIP_TOOLCHAIN_CHECK "Skips the downloading/checking of the cross compilation toolchain." OFF)
 
 if(SKIP_VENDOR_CHECK)
-  message(STATUS "Skipping Vendor Dependancy downloads/checks")
+  message(STATUS "Skipping vendor dependancy downloads/checks")
 else()
   ensure_vendors_installed(PATHS "${CMAKE_SOURCE_DIR}/deps")
 endif()
 
-ensure_toolchain_installed()
+if(SKIP_TOOLCHAIN_CHECK)
+  message(STATUS "Skipping toolchain download/check")
+else()
+  ensure_toolchain_installed()
+endif()
 
-find_package(photonlib REQUIRED)
-find_package(WPILib REQUIRED)
-find_package(opencv REQUIRED)
-# Robot target
-# For quick list of files run
-# find src -iname "*.cpp"
-# in project root
-file(GLOB_RECURSE ${PROJECT_NAME}_SOURCES "${CMAKE_SOURCE_DIR}/src/main/*.cpp")
-add_executable("${PROJECT_NAME}_NATIVE")
-target_sources("${PROJECT_NAME}_NATIVE" PRIVATE ${${PROJECT_NAME}_SOURCES})
-target_link_libraries("${PROJECT_NAME}_NATIVE"
-  PRIVATE
-    WPILib::linuxx86-64::wpilibc-cpp
-    WPILib::linuxx86-64::hal-cpp
-    WPILib::linuxx86-64::cscore-cpp
-    WPILib::linuxx86-64::cameraserver-cpp
-    WPILib::linuxx86-64::wpiutil-cpp
-    WPILib::linuxx86-64::wpimath-cpp
-    opencv::linuxx86-64::opencv-cpp::opencv_imgcodecs
-    opencv::linuxx86-64::opencv-cpp::opencv_imgproc
-    opencv::linuxx86-64::opencv-cpp::opencv_core
+externalproject_add(frcUserProgram_NATIVE
+  SOURCE_DIR "${CMAKE_SOURCE_DIR}/src/nativeBuild"
+  CMAKE_ARGS ${CMAKE_ARGS}
+  INSTALL_COMMAND cmake -E echo "No install step avaliable."
+  BINARY_DIR "${CMAKE_BINARY_DIR}/frcUserProgram_NATIVE"
+  TMP_DIR "${CMAKE_BINARY_DIR}/frcUserProgram_NATIVE/tmp"
+  STAMP_DIR "${CMAKE_BINARY_DIR}/frcUserProgram_NATIVE/stamp"
+
 )
-target_include_directories("${PROJECT_NAME}_NATIVE" PRIVATE "${CMAKE_SOURCE_DIR}/src/main/include")
-target_include_directories("${PROJECT_NAME}_NATIVE" SYSTEM PUBLIC ${photonlib_INCLUDE_DIR} ${WPILib_INCLUDE_DIR})
 
-set_property(TARGET "${PROJECT_NAME}_NATIVE" PROPERTY CXX_STANDARD 20)
-
-include("${CMAKE_SOURCE_DIR}/.toolchain/roborio-academic/toolchain-config.cmake")
-add_executable("${PROJECT_NAME}_TARGET")
-target_sources("${PROJECT_NAME}_TARGET" PRIVATE ${${PROJECT_NAME}_SOURCES})
-target_link_libraries("${PROJECT_NAME}_TARGET"
-  PRIVATE
-    WPILib::linuxathena::wpilibc-cpp
-    WPILib::linuxathena::hal-cpp
-    WPILib::linuxathena::cscore-cpp
-    WPILib::linuxathena::cameraserver-cpp
-    WPILib::linuxathena::wpiutil-cpp
-    WPILib::linuxathena::wpimath-cpp
-    opencv::linuxathena::opencv-cpp::opencv_imgcodecs
-    opencv::linuxathena::opencv-cpp::opencv_imgproc
-    opencv::linuxathena::opencv-cpp::opencv_core
+externalproject_add(frcUserProgram_TARGET
+  SOURCE_DIR "${CMAKE_SOURCE_DIR}/src/targetBuild"
+  CMAKE_ARGS ${CMAKE_ARGS}
+  INSTALL_COMMAND cmake -E echo "No install step avaliable."
+  BINARY_DIR "${CMAKE_BINARY_DIR}/frcUserProgram_TARGET"
+  TMP_DIR "${CMAKE_BINARY_DIR}/frcUserProgram_TARGET/tmp"
+  STAMP_DIR "${CMAKE_BINARY_DIR}/frcUserProgram_TARGET/stamp"
 )
-target_include_directories("${PROJECT_NAME}_TARGET" PRIVATE "${CMAKE_SOURCE_DIR}/src/main/include")
-target_include_directories("${PROJECT_NAME}_TARGET" SYSTEM PUBLIC ${photonlib_INCLUDE_DIR} ${WPILib_INCLUDE_DIR})
 
-#include(ExternalProject)
 #ExternalProject_Add(check
 #  PREFIX ${CMAKE_CURRENT_BINARY_DIR}/test
 #  SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src/test/src

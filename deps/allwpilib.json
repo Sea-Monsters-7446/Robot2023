@@ -1,5 +1,5 @@
 {
-    "fileName": "wpilib",
+    "fileName": "allwpilib.json",
     "name": "WPILib",
     "version": "v2023.4.1",
     "uuid": "?????",
@@ -254,6 +254,87 @@
                 "linuxx86-64",
                 "osxuniversal"
             ]
-        }
+        },
+        {
+            "groupId": "edu.wpi.first.ni-libraries",
+            "artifactId": "chipobject",
+            "version": "2023.3.0",
+            "libName": "RoboRIO_FRC_ChipObject",
+            "headerClassifier": "headers",
+            "sharedLibrary": true,
+            "skipInvalidPlatforms": true,
+            "binaryPlatforms": [
+                "linuxathena",
+            ]
+        },
+        {
+            "groupId": "edu.wpi.first.ni-libraries",
+            "artifactId": "netcomm",
+            "version": "2023.3.0",
+            "libName": "FRC_NetworkCommunication",
+            "headerClassifier": "headers",
+            "sharedLibrary": true,
+            "skipInvalidPlatforms": true,
+            "binaryPlatforms": [
+                "linuxathena",
+            ]
+        },
+        {
+            "groupId": "edu.wpi.first.ni-libraries",
+            "artifactId": "runtime",
+            "version": "2023.3.0",
+            "libNames": [
+                "embcanshim",
+                "fpgalvshim"
+            ],
+            "headerClassifier": "headers",
+            "sharedLibrary": true,
+            "skipInvalidPlatforms": true,
+            "binaryPlatforms": [
+                "linuxathena",
+            ]
+        },
+        {
+            "groupId": "edu.wpi.first.ni-libraries",
+            "artifactId": "visa",
+            "version": "2023.3.0",
+            "libName": "visa",
+            "headerClassifier": "headers",
+            "sharedLibrary": true,
+            "skipInvalidPlatforms": true,
+            "binaryPlatforms": [
+                "linuxathena",
+            ]
+        },
+        {
+            "groupId": "edu.wpi.first.wpilibNewCommands",
+            "artifactId": "wpilibNewCommands-cpp",
+            "version": "2023.4.2",
+            "libName": "visa",
+            "headerClassifier": "headers",
+            "sharedLibrary": true,
+            "skipInvalidPlatforms": true,
+            "binaryPlatforms": [
+                "windowsx86-64",
+                "linuxathena",
+                "linuxx86-64",
+                "osxuniversal"
+            ]
+        },
+        {
+            "groupId": "edu.wpi.first.wpilibNewCommands",
+            "artifactId": "wpilibNewCommands-cpp",
+            "version": "2023.4.2",
+            "libName": "visa",
+            "headerClassifier": "headers",
+            "sharedLibrary": true,
+            "skipInvalidPlatforms": true,
+            "binaryPlatforms": [
+                "windowsx86-64",
+                "linuxathena",
+                "linuxx86-64",
+                "osxuniversal"
+            ]
+        },
     ]
 }
