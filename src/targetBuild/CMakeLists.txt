@@ -1,15 +1,10 @@
 cmake_minimum_required(VERSION 3.5)
 
-project(frcUserProgram_TARGET)
-
 include(${CMAKE_TOP_SOURCE_DIR}/.toolchain/roborio-academic/toolchain-config.cmake)
 
+project(frcUserProgram_TARGET)
+
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_TOP_SOURCE_DIR}/.vendor/cmake/Modules")
-
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -pthread")
-
-set(CMAKE_BUILD_RPATH_USE_ORIGIN TRUE)
 
 set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY BOTH)
 set(CMAKE_FIND_ROOT_PATH_MODE_PACKAGE BOTH)
@@ -39,6 +34,7 @@ target_link_libraries(${PROJECT_NAME}
     opencv::linuxathena::opencv-cpp::opencv_calib3d
     opencv::linuxathena::opencv-cpp::opencv_objdetect
     opencv::linuxathena::opencv-cpp::opencv_aruco
+    WPILib::linuxathena::visa::fpgalvshim
     WPILib::linuxathena::apriltag-cpp
     WPILib::linuxathena::hal-cpp
     WPILib::linuxathena::wpilibc-cpp
@@ -49,11 +45,11 @@ target_link_libraries(${PROJECT_NAME}
     WPILib::linuxathena::runtime::embcanshim
     WPILib::linuxathena::runtime::fpgalvshim
     WPILib::linuxathena::netcomm
-    WPILib::linuxathena::visa
     WPILib::linuxathena::chipobject
     photonlib::linuxathena::PhotonLib-cpp
+    pthread
 )
-target_include_directories(${PROJECT_NAME} PRIVATE "${CMAKE_TOP_SOURCE_DIR}/src/main/include")
-target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC ${photonlib_INCLUDE_DIR} ${WPILib_INCLUDE_DIR})
+
+target_include_directories(${PROJECT_NAME} PUBLIC "${CMAKE_TOP_SOURCE_DIR}/src/main/include")
 
 set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 20)

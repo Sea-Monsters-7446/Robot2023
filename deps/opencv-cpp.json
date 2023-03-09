@@ -12,6 +12,7 @@
             "groupId": "edu.wpi.first.thirdparty.frc2023.opencv",
             "artifactId": "opencv-cpp",
             "version": "4.6.0-4",
+            "libVersion": "4.6",
             "libNames": [
                 "opencv_aruco",
                 "opencv_calib3d",

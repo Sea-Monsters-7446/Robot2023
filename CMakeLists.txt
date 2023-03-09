@@ -15,6 +15,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 option(SKIP_VENDOR_CHECK "Skips the downloading/checking of vendor and custom dependancies" OFF)
 option(SKIP_TOOLCHAIN_CHECK "Skips the downloading/checking of the cross compilation toolchain." OFF)
+option(RECONFIGURE_LIBRARIES "Reconfigure the Find<VendorLibrary>.cmake files" FALSE)
 
 if(SKIP_VENDOR_CHECK)
   message(STATUS "Skipping vendor dependancy downloads/checks")

@@ -19,8 +19,11 @@ endif()
 
 # Robot host native target
 file(GLOB_RECURSE ${PROJECT_NAME}_SOURCES "${CMAKE_TOP_SOURCE_DIR}/src/main/*.cpp")
+
 add_executable(${PROJECT_NAME})
+
 target_sources(${PROJECT_NAME} PRIVATE ${${PROJECT_NAME}_SOURCES})
+
 target_link_libraries(${PROJECT_NAME}
     PRIVATE
     WPILib::${PLATFORM}::wpilibc-cpp
@@ -47,7 +50,7 @@ target_link_libraries(${PROJECT_NAME}
     opencv::${PLATFORM}::opencv-cpp::opencv_aruco
     photonlib::${PLATFORM}::PhotonLib-cpp
 )
-target_include_directories(${PROJECT_NAME} PRIVATE "${CMAKE_TOP_SOURCE_DIR}/src/main/include")
-target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC ${photonlib_INCLUDE_DIR} ${WPILib_INCLUDE_DIR})
+
+target_include_directories(${PROJECT_NAME} PUBLIC "${CMAKE_TOP_SOURCE_DIR}/src/main/include")
 
 set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 20)
