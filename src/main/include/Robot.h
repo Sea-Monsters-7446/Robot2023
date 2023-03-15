@@ -8,6 +8,7 @@
 #include <frc/PS4Controller.h>
 #include <frc/motorcontrol/PWMVictorSPX.h>
 #include <frc/drive/DifferentialDrive.h>
+#include "Claw.h"
 
 class Robot : public frc::TimedRobot {
  public:
@@ -29,6 +30,7 @@ class Robot : public frc::TimedRobot {
   void TestInit() override;
   void TestPeriodic() override;
 
+ private:
   frc::PS4Controller m_controller;
 
   frc::PWMVictorSPX m_leftMotor;
