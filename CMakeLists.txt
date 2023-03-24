@@ -48,23 +48,9 @@ externalproject_add(frcUserProgram_TARGET
   STAMP_DIR "${CMAKE_BINARY_DIR}/frcUserProgram_TARGET/stamp"
 )
 
-#ExternalProject_Add(check
-#  PREFIX ${CMAKE_CURRENT_BINARY_DIR}/test
-#  SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src/test/src
-#  INSTALL_COMMAND ""
-#  TEST_AFTER_INSTALL 1
-#  TEST_COMMAND ${CMAKE_CURRENT_BINARY_DIR}/test/src/check-build/check)
-#set_target_properties(check PROPERTIES EXCLUDE_FROM_ALL TRUE)
-
 # Deploy target
-#find_file(ROBOTCOMMAND ant/robotCommand PATHS "${CMAKE_SYSROOT}/usr/share/wpilib" "${CMAKE_SYSROOT}/wpilib")
-#add_custom_target(deploy
-#  COMMAND sh -c "${CMAKE_CURRENT_SOURCE_DIR}/deploy ${TEAM_NUMBER} $<TARGET_FILE:${PROJECT_NAME}> ${ROBOTCOMMAND}"
-#  DEPENDS ${PROJECT_NAME})
-#set_target_properties(deploy PROPERTIES EXCLUDE_FROM_ALL TRUE)
-
-# Lint target
-add_custom_target(lint
-    COMMAND sh -c "cppcheck src --enable=information,warning,style -I src"
-  WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
-
+externalproject_get_property(frcUserProgram_TARGET BINARY_DIR)
+add_custom_target(deploy
+    COMMAND sh -c "${CMAKE_CURRENT_SOURCE_DIR}/cmake/deploy ${TEAM_NUMBER} ${BINARY_DIR}/frcUserProgram_TARGET"
+  DEPENDS frcUserProgram_TARGET)
+set_target_properties(deploy PROPERTIES EXCLUDE_FROM_ALL TRUE)
