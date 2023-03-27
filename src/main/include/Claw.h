@@ -13,8 +13,6 @@
  */
 class Claw {
     public:
-        Claw() = delete;
-        
         /**
          * @brief Constructs a new instance of `Claw`
          *
@@ -27,7 +25,7 @@ class Claw {
          * @param armJoints_port The port for the joints of the CLAW
          *
          */
-        Claw(int lazySusan_port, int armVertical_port, int armHorizontal_port, int armJoints_port);
+        Claw(int lazySusan_port, int armJoints_port);
 
         /**
          * @brief Moves the CLAW manualy via the controller
@@ -42,7 +40,5 @@ class Claw {
 
     private:
         frc::PWMVictorSPX m_lazySusan;
-        frc::PWMVictorSPX m_armVertical;
-        frc::PWMVictorSPX m_armHorizontal;
         frc::PWMVictorSPX m_armJoints;
 };
