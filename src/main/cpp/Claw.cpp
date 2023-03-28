@@ -4,15 +4,14 @@
 
 #include "Claw.h"
 
-Claw::Claw(int lazySusan_port, int armVertical_port, int armHorizontal_port, int armJoints_port) :
+Claw::Claw(int lazySusan_port, int armJoints_port) :
     m_lazySusan(lazySusan_port),
-    m_armVertical(armVertical_port),
-    m_armHorizontal(armHorizontal_port),
     m_armJoints(armJoints_port)
 {
 
 }
 
 void Claw::manualMove(frc::PS4Controller& controller) {
-    
+    m_lazySusan.Set(static_cast<int>(controller.GetL2Button()));
+    m_lazySusan.Set(static_cast<int>(controller.GetR2Button()) - 1);
 }
