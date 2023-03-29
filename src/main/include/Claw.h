@@ -6,6 +6,7 @@
 
 #include <frc/motorcontrol/PWMVictorSPX.h>
 #include <frc/PS4Controller.h>
+#include "PickupClaw.h"
 
 /**
  * @brief Class to control the CLAW mechinism
@@ -25,7 +26,7 @@ class Claw {
          * @param armJoints_port The port for the joints of the CLAW
          *
          */
-        Claw(int lazySusan_port, int armJoints_port);
+        Claw(int lazySusan_port, int armJoints_port, int bob);
 
         /**
          * @brief Moves the CLAW manualy via the controller
@@ -41,4 +42,6 @@ class Claw {
     private:
         frc::PWMVictorSPX m_lazySusan;
         frc::PWMVictorSPX m_armJoints;
+        frc::PWMVictorSPX m_clawMotor;
+        PickupController m_claw;
 };
