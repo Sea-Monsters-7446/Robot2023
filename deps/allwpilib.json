@@ -1,0 +1,343 @@
+{
+    "fileName": "allwpilib.json",
+    "name": "WPILib",
+    "version": "v2023.4.1",
+    "uuid": "?????",
+    "mavenUrls": [
+        "https://frcmaven.wpi.edu/artifactory/wpilib-mvn-development-local/"
+    ],
+    "jniDependencies": [],
+    "cppDependencies": [
+        {
+            "groupId": "edu.wpi.first.cscore",
+            "artifactId": "cscore-cpp",
+            "version": "2023.4.2",
+            "libName": "cscore",
+            "headerClassifier": "headers",
+            "sharedLibrary": true,
+            "skipInvalidPlatforms": true,
+            "binaryPlatforms": [
+                "windowsx86-64",
+                "linuxathena",
+                "linuxx86-64",
+                "osxuniversal"
+            ]
+        },
+        {
+            "groupId": "edu.wpi.first.cameraserver",
+            "artifactId": "cameraserver-cpp",
+            "version": "2023.4.2",
+            "libName": "cameraserver",
+            "headerClassifier": "headers",
+            "sharedLibrary": true,
+            "skipInvalidPlatforms": true,
+            "binaryPlatforms": [
+                "windowsx86-64",
+                "linuxathena",
+                "linuxx86-64",
+                "osxuniversal"
+            ]
+        },
+        {
+            "groupId": "edu.wpi.first.apriltag",
+            "artifactId": "apriltag-cpp",
+            "version": "2023.4.2",
+            "libName": "apriltag",
+            "headerClassifier": "headers",
+            "sharedLibrary": true,
+            "skipInvalidPlatforms": true,
+            "binaryPlatforms": [
+                "windowsx86-64",
+                "linuxathena",
+                "linuxx86-64",
+                "osxuniversal"
+            ]
+        },
+        {
+            "groupId": "edu.wpi.first.fieldIimages",
+            "artifactId": "fieldImages-cpp",
+            "version": "2023.4.2",
+            "libName": "fieldimages",
+            "headerClassifier": "headers",
+            "sharedLibrary": true,
+            "skipInvalidPlatforms": true,
+            "binaryPlatforms": [
+                "windowsx86-64",
+                "linuxx86-64",
+                "osxuniversal"
+            ]
+        },
+        {
+            "groupId": "edu.wpi.first.glass",
+            "artifactId": "libglass",
+            "version": "2023.4.2",
+            "libName": "glass",
+            "headerClassifier": "headers",
+            "sharedLibrary": true,
+            "skipInvalidPlatforms": true,
+            "binaryPlatforms": [
+                "windowsx86-64static",
+                "linuxx86-64static",
+                "osxuniversalstatic"
+            ]
+        },
+        {
+            "groupId": "edu.wpi.first.hal",
+            "artifactId": "hal-cpp",
+            "version": "2023.4.2",
+            "libName": "wpiHal",
+            "headerClassifier": "headers",
+            "sharedLibrary": true,
+            "skipInvalidPlatforms": true,
+            "binaryPlatforms": [
+                "windowsx86-64",
+                "linuxathena",
+                "linuxx86-64",
+                "osxuniversal"
+            ]
+        },
+        {
+            "groupId": "edu.wpi.first.halsim",
+            "artifactId": "halsim_ds_socket",
+            "version": "2023.4.2",
+            "libName": "halsim_ds_socket",
+            "headerClassifier": "headers",
+            "sharedLibrary": true,
+            "skipInvalidPlatforms": true,
+            "binaryPlatforms": [
+                "windowsx86-64",
+                "linuxx86-64",
+                "osxuniversal"
+            ]
+        },
+        {
+            "groupId": "edu.wpi.first.halsim",
+            "artifactId": "halsim_gui",
+            "version": "2023.4.2",
+            "libName": "halsim_gui",
+            "headerClassifier": "headers",
+            "sharedLibrary": true,
+            "skipInvalidPlatforms": true,
+            "binaryPlatforms": [
+                "windowsx86-64",
+                "linuxx86-64",
+                "osxuniversal"
+            ]
+        },
+        {
+            "groupId": "edu.wpi.first.halsim",
+            "artifactId": "halsim_ws_client",
+            "version": "2023.4.2",
+            "libName": "halsim_ws_client",
+            "headerClassifier": "headers",
+            "sharedLibrary": true,
+            "skipInvalidPlatforms": true,
+            "binaryPlatforms": [
+                "windowsx86-64",
+                "linuxx86-64",
+                "osxuniversal"
+            ]
+        },
+        {
+            "groupId": "edu.wpi.first.halsim",
+            "artifactId": "halsim_ws_core",
+            "version": "2023.4.2",
+            "libName": "halsim_ws_core",
+            "headerClassifier": "headers",
+            "sharedLibrary": true,
+            "skipInvalidPlatforms": true,
+            "binaryPlatforms": [
+                "windowsx86-64",
+                "linuxx86-64",
+                "osxuniversal"
+            ]
+        },
+        {
+            "groupId": "edu.wpi.first.halsim",
+            "artifactId": "halsim_ws_server",
+            "version": "2023.4.2",
+            "libName": "halsim_ws_server",
+            "headerClassifier": "headers",
+            "sharedLibrary": true,
+            "skipInvalidPlatforms": true,
+            "binaryPlatforms": [
+                "windowsx86-64",
+                "linuxx86-64",
+                "osxuniversal"
+            ]
+        },
+        {
+            "groupId": "edu.wpi.first.ntcore",
+            "artifactId": "ntcore-cpp",
+            "version": "2023.4.2",
+            "libName": "ntcore",
+            "headerClassifier": "headers",
+            "sharedLibrary": true,
+            "skipInvalidPlatforms": true,
+            "binaryPlatforms": [
+                "windowsx86-64",
+                "linuxathena",
+                "linuxx86-64",
+                "osxuniversal"
+            ]
+        },
+        {
+            "groupId": "edu.wpi.first.wpigui",
+            "artifactId": "wpigui-cpp",
+            "version": "2023.4.2",
+            "libName": "wpigui",
+            "headerClassifier": "headers",
+            "sharedLibrary": true,
+            "skipInvalidPlatforms": true,
+            "binaryPlatforms": [
+                "windowsx86-64static",
+                "linuxx86-64static",
+                "osxuniversalstatic"
+            ]
+        },
+        {
+            "groupId": "edu.wpi.first.wpilibc",
+            "artifactId": "wpilibc-cpp",
+            "version": "2023.4.2",
+            "libName": "wpilibc",
+            "headerClassifier": "headers",
+            "sharedLibrary": true,
+            "skipInvalidPlatforms": true,
+            "binaryPlatforms": [
+                "windowsx86-64",
+                "linuxathena",
+                "linuxx86-64",
+                "osxuniversal"
+            ]
+        },
+        {
+            "groupId": "edu.wpi.first.wpimath",
+            "artifactId": "wpimath-cpp",
+            "version": "2023.4.2",
+            "libName": "wpimath",
+            "headerClassifier": "headers",
+            "sharedLibrary": true,
+            "skipInvalidPlatforms": true,
+            "binaryPlatforms": [
+                "windowsx86-64",
+                "linuxathena",
+                "linuxx86-64",
+                "osxuniversal"
+            ]
+        },
+        {
+            "groupId": "edu.wpi.first.wpinet",
+            "artifactId": "wpinet-cpp",
+            "version": "2023.4.2",
+            "libName": "wpinet",
+            "headerClassifier": "headers",
+            "sharedLibrary": true,
+            "skipInvalidPlatforms": true,
+            "binaryPlatforms": [
+                "windowsx86-64",
+                "linuxathena",
+                "linuxx86-64",
+                "osxuniversal"
+            ]
+        },
+        {
+            "groupId": "edu.wpi.first.wpiutil",
+            "artifactId": "wpiutil-cpp",
+            "version": "2023.4.2",
+            "libName": "wpiutil",
+            "headerClassifier": "headers",
+            "sharedLibrary": true,
+            "skipInvalidPlatforms": true,
+            "binaryPlatforms": [
+                "windowsx86-64",
+                "linuxathena",
+                "linuxx86-64",
+                "osxuniversal"
+            ]
+        },
+        {
+            "groupId": "edu.wpi.first.ni-libraries",
+            "artifactId": "chipobject",
+            "version": "2023.3.0",
+            "libVersion": "23.0.0",
+            "libName": "RoboRIO_FRC_ChipObject",
+            "headerClassifier": "headers",
+            "sharedLibrary": true,
+            "skipInvalidPlatforms": true,
+            "binaryPlatforms": [
+                "linuxathena",
+            ]
+        },
+        {
+            "groupId": "edu.wpi.first.ni-libraries",
+            "artifactId": "netcomm",
+            "version": "2023.3.0",
+            "libVersion": "23.0.0",
+            "libName": "FRC_NetworkCommunication",
+            "headerClassifier": "headers",
+            "sharedLibrary": true,
+            "skipInvalidPlatforms": true,
+            "binaryPlatforms": [
+                "linuxathena",
+            ]
+        },
+        {
+            "groupId": "edu.wpi.first.ni-libraries",
+            "artifactId": "runtime",
+            "version": "2023.3.0",
+            "libNames": [
+                "embcanshim",
+                "fpgalvshim"
+            ],
+            "headerClassifier": "headers",
+            "sharedLibrary": true,
+            "skipInvalidPlatforms": true,
+            "binaryPlatforms": [
+                "linuxathena",
+            ]
+        },
+        {
+            "groupId": "edu.wpi.first.ni-libraries",
+            "artifactId": "visa",
+            "version": "2023.3.0",
+            "libVersion": "22.5.0",
+            "libName": "visa",
+            "headerClassifier": "headers",
+            "sharedLibrary": true,
+            "skipInvalidPlatforms": true,
+            "binaryPlatforms": [
+                "linuxathena",
+            ]
+        },
+        {
+            "groupId": "edu.wpi.first.wpilibNewCommands",
+            "artifactId": "wpilibNewCommands-cpp",
+            "version": "2023.4.2",
+            "libName": "visa",
+            "headerClassifier": "headers",
+            "sharedLibrary": true,
+            "skipInvalidPlatforms": true,
+            "binaryPlatforms": [
+                "windowsx86-64",
+                "linuxathena",
+                "linuxx86-64",
+                "osxuniversal"
+            ]
+        },
+        {
+            "groupId": "edu.wpi.first.wpilibNewCommands",
+            "artifactId": "wpilibNewCommands-cpp",
+            "version": "2023.4.2",
+            "libName": "visa",
+            "headerClassifier": "headers",
+            "sharedLibrary": true,
+            "skipInvalidPlatforms": true,
+            "binaryPlatforms": [
+                "windowsx86-64",
+                "linuxathena",
+                "linuxx86-64",
+                "osxuniversal"
+            ]
+        },
+    ]
+}
