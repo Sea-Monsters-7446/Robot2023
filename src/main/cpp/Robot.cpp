@@ -8,12 +8,15 @@ Robot::Robot() :
   m_controller(1),
   m_leftMotor(0),
   m_rightMotor(1),
-  m_drive(m_leftMotor, m_rightMotor)
+  m_drive(m_leftMotor, m_rightMotor),
+  m_camera("cyclop", 0)
 {
 
 }
 
-void Robot::RobotInit() {}
+void Robot::RobotInit() {
+  frc::CameraServer::StartAutomaticCapture();
+}
 void Robot::RobotPeriodic() {}
 
 void Robot::AutonomousInit() {}
