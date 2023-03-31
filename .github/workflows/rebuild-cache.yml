@@ -1,12 +1,19 @@
 name: Rebuild Cache
 on:
   schedule:
-    - cron '00 12 * * WED'
+    - cron: "00 12 * * WED"
+  push:
+    branches: [ "actions_dev" ]
+  workflow_dispatch:
 jobs:
-  download:
+  cache:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - name: Configure
+        run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+      - name: Build
+        run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
       - name: Cache
         uses: actions/cache/save@v3
         id: cache
