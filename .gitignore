@@ -169,4 +169,3 @@ cmake-test
 .cache/
 
 compile_commands.json
-.clang-tidy
