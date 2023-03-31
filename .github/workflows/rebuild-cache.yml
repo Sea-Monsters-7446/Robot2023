@@ -2,9 +2,9 @@ name: Rebuild Cache
 on:
   schedule:
     - cron: "00 12 * * WED"
-  push:
-    branches: [ "actions_dev" ]
   workflow_dispatch:
+env:
+  BUILD_TYPE: RelWithDebInfo
 jobs:
   cache:
     runs-on: ubuntu-latest
