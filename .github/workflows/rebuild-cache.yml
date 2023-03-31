@@ -1,0 +1,17 @@
+name: Rebuild Cache
+on:
+  schedule:
+    - cron '00 12 * * WED'
+jobs:
+  download:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Cache
+        uses: actions/cache/save@v3
+        id: cache
+        with:
+          path: |
+            ${{github.workspace}}/.toolchain
+            ${{github.workspace}}/.vendor
+          key: ${{ runner.os }}-Vendor-Dependancies
