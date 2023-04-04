@@ -16,16 +16,12 @@ class Claw {
         /**
          * @brief Constructs a new instance of `Claw`
          *
-         * @param lazySusan_port The port of the "Lazy Susan"
+         * @param pully_port The port for the pully system
          *
-         * @param armVertical_port The port for the vertical leg of the CLAW
-         *
-         * @param armHorizontal_port The port for the horizontal leg of the CLAW
-         *
-         * @param armJoints_port The port for the joints of the CLAW
+         * @param pickerUpper_port The port for the pickerUpper
          *
          */
-        Claw(int lazySusan_port, int armJoints_port);
+        Claw(int pully_port, int pickerUpper_port);
 
         /**
          * @brief Moves the CLAW manualy via the controller
@@ -39,6 +35,6 @@ class Claw {
         void autoMove() = delete;
 
     private:
-        frc::PWMVictorSPX m_lazySusan;
-        frc::PWMVictorSPX m_armJoints;
+        frc::PWMVictorSPX m_pully;
+        frc::PWMVictorSPX m_pickerUpper;
 };

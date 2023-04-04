@@ -170,3 +170,5 @@ cmake-test
 
 compile_commands.json
 .clang-tidy
+
+networktables.json

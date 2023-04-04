@@ -8,12 +8,16 @@ Robot::Robot() :
   m_controller(1),
   m_leftMotor(0),
   m_rightMotor(1),
-  m_drive(m_leftMotor, m_rightMotor)
+  m_drive(m_leftMotor, m_rightMotor),
+  m_clawMechanism(3, 5),
+  m_camera("cyclop", 0)
 {
 
 }
 
-void Robot::RobotInit() {}
+void Robot::RobotInit() {
+  frc::CameraServer::StartAutomaticCapture();
+}
 void Robot::RobotPeriodic() {}
 
 void Robot::AutonomousInit() {}
@@ -21,6 +25,7 @@ void Robot::AutonomousPeriodic() {}
 
 void Robot::TeleopInit() {}
 void Robot::TeleopPeriodic() {
+
   m_drive.ArcadeDrive(m_controller.GetRightX(), m_controller.GetLeftY());
 }
 
