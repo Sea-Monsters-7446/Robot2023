@@ -8,6 +8,8 @@
 #include <frc/PS4Controller.h>
 #include <frc/motorcontrol/PWMVictorSPX.h>
 #include <frc/drive/DifferentialDrive.h>
+#include "Claw.h"
+#include "cameraserver/CameraServer.h"
 
 class Robot : public frc::TimedRobot {
  public:
@@ -36,4 +38,8 @@ class Robot : public frc::TimedRobot {
   frc::PWMVictorSPX m_rightMotor;
 
   frc::DifferentialDrive m_drive;
+
+  Claw m_clawMechanism;
+
+  cs::UsbCamera m_camera;
 };
