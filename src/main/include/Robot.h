@@ -31,7 +31,6 @@ class Robot : public frc::TimedRobot {
   void TestInit() override;
   void TestPeriodic() override;
 
- private:
   frc::PS4Controller m_controller;
 
   frc::PWMVictorSPX m_leftMotor;
